@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: djangoredis
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8080
+    targetPort: 8080
+  selector:
+    app: vote
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: djangoredis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: djangoredis
+  template:
+    metadata:
+      labels:
+        app: djangoredis
+    spec:
+      containers:
+      - image: carogomezt/django_redis_demo:latest
+        name: djangoredis
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: 200m
+            memory: 256Mi

@@ -75,8 +75,10 @@ $ python manage.py runserver
 
 ## Azure
 
-Azure useful commands:
+Change k8s context:
 
 ```
  az aks get-credentials --resource-group MyResourceGroup --name MyAKS
 ```
+Create the Storage Class to save files:
+- [Dynamically create and use a persistent volume with Azure Files in Azure Kubernetes Service (AKS)](https://docs.microsoft.com/en-us/azure/aks/azure-files-dynamic-pv)

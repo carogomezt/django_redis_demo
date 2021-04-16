@@ -1,0 +1,60 @@
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: django-cdn-service
+  labels:
+    app: django-cdn
+spec:
+  type: LoadBalancer
+  selector:
+    app: django-cdn
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+      nodePort: 30001
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-cdn
+  labels:
+    app: django-cdn
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django-cdn
+  template:
+    metadata:
+      labels:
+        app: django-cdn
+    spec:
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: nginx-config
+      - name: django-statics
+        persistentVolumeClaim:
+          claimName: django-storage-claim
+
+      containers:
+        - image: nginx:latest
+          imagePullPolicy: IfNotPresent
+          name: django-cdn
+          ports:
+            - containerPort: 8000
+              name: django-cdn
+          resources:
+            limits:
+              memory: "256M"
+              cpu: "200m"
+          volumeMounts:
+            - mountPath: /etc/nginx/conf.d/
+              name: nginx-config
+              readOnly: true
+            - mountPath: /static
+              name: django-statics

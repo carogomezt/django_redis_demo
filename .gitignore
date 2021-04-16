@@ -1,2 +1,8 @@
 *.sqlite3
 api/__pycache__
+__pycache__
+django_redis_demo/__pycache__
+*.pyc
+.env
+static/
+k8s/django-secret.yaml

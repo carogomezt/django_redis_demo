@@ -5,6 +5,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: my-azurefile
   resources:
     requests:
       storage: 20M

@@ -3,6 +3,6 @@ kind: ConfigMap
 metadata:
   name: django-configmap
 data:
-  DEBUG: "True"
+  DEBUG: "False"
   DJANGO_ALLOWED_HOSTS: "*"
-  STATIC_HOST: "http://192.168.99.100:30001/static/"
+  STATIC_HOST: "http://20.185.10.130:8000/static/"
